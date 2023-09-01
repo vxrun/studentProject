@@ -14,10 +14,15 @@ public class Subject {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "subjectid")
 	private int subjectid;
+	
+	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "marks")
 	private int marks;
+	
 	private int totalMarks =100;
-	private int studentSubjectId;
+	
 	public String getName() {
 		return name;
 	}
@@ -36,16 +41,10 @@ public class Subject {
 	public void setTotalMarks(int totalMarks) {
 		this.totalMarks = totalMarks;
 	}
-	public int getStudentSubjectId() {
-		return studentSubjectId;
-	}
-	public void setStudentSubjectId(int studentSubjectId) {
-		this.studentSubjectId = studentSubjectId;
-	}
 	@Override
 	public String toString() {
 		return "Subject [subjectid=" + subjectid + ", name=" + name + ", marks=" + marks + ", totalMarks=" + totalMarks
-				+ ", studentSubjectId=" + studentSubjectId + "]";
+				+ ", studentSubjectId=" + "]";
 	}
 	
 }

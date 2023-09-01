@@ -1,6 +1,7 @@
 package com.springb.students.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Student> findStudentsByFirstName(String name) {
 		List<Student> students = studentDAO.findByFirstName(name);
-
 		if (students == null)
 			System.out.println("No element found.");
 		else
@@ -43,8 +43,9 @@ public class StudentServiceImpl implements StudentService {
 	public void createStudent(String firstName, String lastName, String email, String password, List<Subject> subjects) {
 		
 		
-		//Student student = new Student(firstName, lastName, email, password, subjects);
-		//studentDAO.save(student);
+		Student student = new Student(firstName, lastName, email, password, subjects);
+		studentDAO.save(student);
+		
 		System.out.println("Student saved successfully.");
 	}
 	
@@ -57,6 +58,25 @@ public class StudentServiceImpl implements StudentService {
 	public List<Student> showAllStudents() {
 		List<Student> students = studentDAO.findAll();
 		return students;
+	}
+
+	@Override
+	public Student findByRollNo(int rollNo){
+		// TODO Auto-generated method stub
+		Optional<Student> student = studentDAO.findById(rollNo);
+		if(student.isPresent())
+			return studentDAO.getById(rollNo);
+		return null;
+	}
+
+	@Override
+	public Student findByEmail(String email) {
+		// TODO Auto-generated method stub
+		List<Student> student = studentDAO.findByEmail(email);
+		if(student.isEmpty()) {
+			return null;
+		}
+		return student.get(0);
 	}
 
 }
