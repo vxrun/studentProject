@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.springb.students.exceptions.AccessDeniedException;
 import com.springb.students.exceptions.BadRequestDataException;
 
 @ControllerAdvice
@@ -21,6 +22,12 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 	ResponseEntity<String> handleBadRequest(BadRequestDataException ex){
 		System.out.println("gggggggggggggggggggggg");
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	ResponseEntity<String> handleAccessDenied(AccessDeniedException ex){
+		System.out.println("Access denied. please login before accessing.");
+		return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 	}
 
 }

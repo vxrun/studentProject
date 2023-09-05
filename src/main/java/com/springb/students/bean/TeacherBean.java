@@ -23,6 +23,17 @@ public class TeacherBean {
 	
 	@Length(min = 8, max = 16, message = "Password length should be 8-16")
 	private String password;
+	
+	@NotNull(message="Please provide valid subject")
+	private String subject;
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -68,14 +79,18 @@ public class TeacherBean {
 			@NotNull(message = "Please provide valid last name") String lastName,
 			@Email(message = "Please provide valid email") String email,
 			@NotNull(message = "Please provide valid number") int totalStudents,
-			@Length(min = 8, max = 16, message = "Password length should be 8-16") String password) {
+			@Length(min = 8, max = 16, message = "Password length should be 8-16") String password,
+			@NotNull(message = "Please provide valid subject") String subject) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.totalStudents = totalStudents;
 		this.password = password;
+		this.subject = subject;
 	}
+
+	
 	
 	
 }

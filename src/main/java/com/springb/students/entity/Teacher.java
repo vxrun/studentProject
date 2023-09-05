@@ -2,6 +2,8 @@ package com.springb.students.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,46 +12,43 @@ import javax.persistence.Table;
 public class Teacher {
 	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="firstName")
+	@Column(name="firstName", nullable = false)
 	private String firstName;
 	
-	@Column(name = "lastName")
+	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "totalStudents")
+	@Column(name="subject", nullable = false)
+	private String subject;
+	
+	@Column(name = "totalStudents", nullable = false)
 	private int totalStudents;
 
 	//constructor
-	
-	
-	public Teacher(String firstName, String lastName, int totalStudents) {
+	public Teacher() {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.totalStudents = totalStudents;
 	}
-
-	public Teacher(String firstName, String lastName, String email, String password, int totalStudents) {
+	
+	public Teacher(String firstName, String lastName, String email, String password, String subject,
+			int totalStudents) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.subject = subject;
 		this.totalStudents = totalStudents;
 	}
 
-	public Teacher() {
-		super();
-	}
-	
 	//getters and setters
 	public int getId() {
 		return id;
