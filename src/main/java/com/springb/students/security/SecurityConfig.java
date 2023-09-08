@@ -7,14 +7,13 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.springb.students.service.UserInfoUserDetailsService;
+import com.springb.students.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +21,13 @@ import com.springb.students.service.UserInfoUserDetailsService;
 public class SecurityConfig {
 	
 	public UserDetailsService userDetailsService() {
-		return new UserInfoUserDetailsService();
+		return new UserDetailsServiceImpl();
+	}
+	
+	@Bean
+	InMemoryUserDetailsManager userDetailsManager() {
+		
+		return new InMemoryUserDetailsManager();
 	}
 	
 	@Bean
@@ -58,4 +63,6 @@ public class SecurityConfig {
 		authenticationProvider1.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider1;
 	}
+	
+	
 }

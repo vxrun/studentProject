@@ -1,4 +1,4 @@
-package com.springb.teacher.Dao;
+package com.springb.students.teacher.DAO;
 
 import java.util.List;
 

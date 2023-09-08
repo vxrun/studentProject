@@ -6,30 +6,30 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "students")
-public class Student {
+public class Student implements ParentUser{
 
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "id")
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "roll_no")
-	private int rollNo;
+	private String id;
 
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
 	@Column(name = "last_name", nullable = false)
-	private String lastName;
+	private String lastName;	
 	
 	@Column(name="email", nullable = false)
-	@Email
 	private String email;
 	
 	@Column(name="password", nullable = false)
@@ -39,15 +39,17 @@ public class Student {
 	@JoinColumn(name = "studentSubjectId")
 	private List<Subject> subjects;
 	
-	public Student() {
-		super();
-	}
+	private String role;
 	
-	public Student(String firstName, String lastName, int marks, List<Subject> subjects) {
+	
+	public Student(String firstName, String lastName, String email, String password, List<Subject> subjects) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
 		this.subjects = subjects;
+		this.role = "Student";
 	}
 
 	public String getFirstName() {
@@ -66,22 +68,6 @@ public class Student {
 		this.lastName = lastName;
 	}
 
-	public List<Subject> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
-	}
-
-	public int getRollNo() {
-		return rollNo;
-	}
-
-	public void setRollNo(int rollNo) {
-		this.rollNo = rollNo;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -98,14 +84,42 @@ public class Student {
 		this.password = password;
 	}
 
-	public Student(String firstName, String lastName, @Email String email, String password, List<Subject> subjects) {
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Student() {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
+		this.role = "Student";
+	}
+
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
+
+	@Override
+	public String toString() {
+		return "Student [rollNo=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", subjects=" + subjects + "]";
+	}
+
+	
 
 	
 

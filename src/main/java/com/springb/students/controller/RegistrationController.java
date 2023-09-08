@@ -13,10 +13,14 @@ import com.springb.students.bean.StudentBean;
 import com.springb.students.bean.TeacherBean;
 import com.springb.students.entity.Student;
 import com.springb.students.entity.Teacher;
+import com.springb.students.exceptions.UserAlreadyExistsException;
 import com.springb.students.service.StudentService;
 import com.springb.students.service.TeacherService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class RegistrationController {
 	
 	/*
@@ -34,25 +38,33 @@ public class RegistrationController {
 	
 	@RequestMapping(path = "/registerTeacher", method = RequestMethod.POST)
 	public ResponseEntity<Teacher> createTeacher(@RequestBody TeacherBean teacherBean) {
-		teacherBean.setPassword(passwordEncoder.encode(teacherBean.getPassword()));
+		log.info("*********Called Teacher Registration Method**********");
 		
-		System.out.println(teacherBean.toString());
+		if(teacherService.findByEmail(teacherBean.getEmail())!=null)
+			throw new UserAlreadyExistsException();
+		
+		teacherBean.setPassword(passwordEncoder.encode(teacherBean.getPassword()));
 		
 		Teacher teacher = new Teacher();
 		BeanUtils.copyProperties(teacherBean, teacher);
 		teacherService.saveTeacher(teacher);
-		System.out.println(teacher.toString());
+		log.info("*********New Teacher Details: {}", teacher.toString());
 		
 		return ResponseEntity.ok().body(teacher);
 	}
 
 	@RequestMapping(path = "/registerStudent", method = RequestMethod.POST)
 	public ResponseEntity<Student> createStudent(@RequestBody StudentBean studentBean) {	
+		log.info("*********Called Student Registration Method**********");
+		
+		if(studentService.findByEmail(studentBean.getEmail())!=null)
+			throw new UserAlreadyExistsException();
+		
 		studentBean.setPassword(passwordEncoder.encode(studentBean.getPassword()));
 		Student student = new Student();
 		BeanUtils.copyProperties(studentBean, student);
 		studentService.saveStudent(student);
-		System.out.println(student.toString());
+		log.info("*********New Student Details: {}", student.toString());
 		
 		return ResponseEntity.ok().body(student);
 	}

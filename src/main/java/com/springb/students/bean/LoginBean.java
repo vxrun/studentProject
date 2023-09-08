@@ -1,11 +1,15 @@
 package com.springb.students.bean;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Email;
 
 @Entity
 public class LoginBean {
+	@Email
 	String email;
 	String password;
+	
+	
 	public LoginBean(String email, String password) {
 		super();
 		this.email = email;

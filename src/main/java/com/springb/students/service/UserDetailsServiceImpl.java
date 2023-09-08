@@ -10,7 +10,7 @@ import com.springb.students.entity.Teacher;
 import com.springb.students.principal.StudentPrincipal;
 import com.springb.students.principal.TeacherPrincipal;
 
-public class UserInfoUserDetailsService implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
 	private StudentService studentService;
@@ -21,6 +21,7 @@ public class UserInfoUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+		
 		Student student = studentService.findByEmail(username);
 		if(student!=null) {
 			return new StudentPrincipal(student);

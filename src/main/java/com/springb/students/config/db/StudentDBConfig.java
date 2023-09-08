@@ -56,5 +56,4 @@ public class StudentDBConfig {
 
 		return new JpaTransactionManager(entityManagerFactory);
 	}
-
 }

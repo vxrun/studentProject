@@ -8,15 +8,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springb.students.bean.LoginBean;
-import com.springb.students.entity.Student;
 import com.springb.students.service.StudentService;
 import com.springb.students.service.TeacherService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class LoginController {
 	
 	/*
-	 * LOGIN OF USER
+	 * HANDLING LOGIN OF USER
 	 */
 	
 	@Autowired
@@ -30,14 +32,12 @@ public class LoginController {
 	
 	@RequestMapping(path="/login",method = RequestMethod.POST)
 	public String loginHandler(@RequestBody LoginBean loginBean) {
+		log.info("*********Called Login Method**********");
+		
 		String username = loginBean.getEmail();
 		String password = passwordEncoder.encode(loginBean.getPassword());
-
+		
 		//check if user exists in student class or not
-		Student student = studentService.findByEmail(username);
-		
-		
-		
 		
 		
 		//redirecting to student handler
