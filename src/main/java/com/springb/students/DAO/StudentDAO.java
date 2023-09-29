@@ -11,12 +11,15 @@ import com.springb.students.entity.Student;
 
 @Repository
 public interface StudentDAO extends JpaRepository<Student, Integer> {
-	@Query(value = "from Student where firstName=:name")
+	@Query(value = "select s from Student s where s.firstName=:name")
 	List<Student> findByFirstName(@Param(value = "name") String name);
 	
-	@Query(value = "from Student where email=:name")
-	List<Student> findByEmail(@Param(value="name") String name);
+	@Query(value = "select s from Student s where s.email=:name")
+	Student findByEmail(@Param(value="name") String name);
 	
-	@Query(value = "from Student where lastName=:name")
+	@Query(value = "select s from Student s where s.lastName=:name")
 	List<Student> findByLastName(@Param(value = "name") String name);
+	
+	@Query(value = "select s.email from Student s")
+	List<String> findAllEmail();
 }

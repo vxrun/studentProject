@@ -8,9 +8,16 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.springb.students.enums.Constants;
+
 @Entity
 @Table(name = "Teachers")
 public class Teacher implements ParentUser{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Column(name = "id")
 	@GeneratedValue(generator = "uuid2")
@@ -41,7 +48,7 @@ public class Teacher implements ParentUser{
 	//constructor
 	public Teacher() {
 		super();
-		this.role = "Teacher";
+		this.role = Constants.ROLES.TEACHER.value();
 	}
 	
 	public Teacher(String firstName, String lastName, String email, String password, String subject,
@@ -53,12 +60,10 @@ public class Teacher implements ParentUser{
 		this.password = password;
 		this.subject = subject;
 		this.totalStudents = totalStudents;
-		this.role = "Teacher";
+		this.role = Constants.ROLES.TEACHER.value();
 	}
 
 	//getters and setters
-	
-	
 	public String getId() {
 		return id;
 	}
@@ -126,8 +131,10 @@ public class Teacher implements ParentUser{
 	@Override
 	public String toString() {
 		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", subject=" + subject + ", totalStudents=" + totalStudents + "]";
+				+ ", password=" + password + ", subject=" + subject + ", totalStudents=" + totalStudents + ", role="
+				+ role + "]";
 	}
+
 	
 	
 

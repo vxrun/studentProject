@@ -1,5 +1,6 @@
 package com.springb.students.principal;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -10,8 +11,9 @@ import com.springb.students.entity.Student;
 
 public class StudentPrincipal implements UserDetails{
 	
-	private Student student;
 	private static final long serialVersionUID = 1L;
+	
+	private Student student;
 	
 	public StudentPrincipal(Student student){
 		this.student = student;
@@ -19,8 +21,10 @@ public class StudentPrincipal implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(getPassword());
-		return null;
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
+					student.getRole().equalsIgnoreCase("student") ? "student" : ""
+				);
+		return Arrays.asList(authority);
 	}
 
 	@Override

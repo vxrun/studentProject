@@ -62,7 +62,6 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Student findByRollNo(int rollNo){
-		// TODO Auto-generated method stub
 		Optional<Student> student = studentDAO.findById(rollNo);
 		if(student.isPresent())
 			return studentDAO.getById(rollNo);
@@ -71,12 +70,8 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Student findByEmail(String email) {
-		// TODO Auto-generated method stub
-		List<Student> student = studentDAO.findByEmail(email);
-		if(student.isEmpty()) {
-			return null;
-		}
-		return student.get(0);
+		Student student = studentDAO.findByEmail(email);
+		return student;
 	}
 
 }

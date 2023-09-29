@@ -13,9 +13,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.springb.students.enums.Constants;
+
 @Entity
 @Table(name = "students")
 public class Student implements ParentUser{
+	private static final long serialVersionUID = 1L;
 
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
@@ -49,7 +52,7 @@ public class Student implements ParentUser{
 		this.email = email;
 		this.password = password;
 		this.subjects = subjects;
-		this.role = "Student";
+		this.role = Constants.ROLES.STUDENT.value();
 	}
 
 	public String getFirstName() {
@@ -102,7 +105,7 @@ public class Student implements ParentUser{
 
 	public Student() {
 		super();
-		this.role = "Student";
+		this.role = Constants.ROLES.STUDENT.value();
 	}
 
 	public List<Subject> getSubjects() {
@@ -115,9 +118,11 @@ public class Student implements ParentUser{
 
 	@Override
 	public String toString() {
-		return "Student [rollNo=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", subjects=" + subjects + "]";
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", subjects=" + subjects + ", role=" + role + "]";
 	}
+
+	
 
 	
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springb.students.entity.Teacher;
-import com.springb.students.teacher.DAO.TeacherDAO;
+import com.springb.teacher.DAO.TeacherDAO;
 
 @Service
 public class TeacherServiceImpl implements TeacherService{
@@ -47,11 +47,11 @@ public class TeacherServiceImpl implements TeacherService{
 	@Override
 	public Teacher findByEmail(String email) {
 		// TODO Auto-generated method stub
-		List<Teacher> teacher = teacherDAO.findByEmail(email);
-		if(teacher.isEmpty()) {
+		Teacher teacher = teacherDAO.findByEmail(email);
+		if(teacher==null) {
 			return null;
 		}
-		return teacher.get(0);
+		return teacher;
 	}
 
 }

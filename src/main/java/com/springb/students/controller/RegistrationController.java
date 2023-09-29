@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springb.students.bean.StudentBean;
 import com.springb.students.bean.TeacherBean;
+import com.springb.students.cache.CacheUtils;
 import com.springb.students.entity.Student;
 import com.springb.students.entity.Teacher;
 import com.springb.students.exceptions.UserAlreadyExistsException;
@@ -28,45 +29,56 @@ public class RegistrationController {
 	 */
 	
 	@Autowired
-	TeacherService teacherService;
+	private CacheUtils cacheUtils;
 	
 	@Autowired
-	StudentService studentService;
+	private TeacherService teacherService;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private StudentService studentService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(path = "/registerTeacher", method = RequestMethod.POST)
-	public ResponseEntity<Teacher> createTeacher(@RequestBody TeacherBean teacherBean) {
+	public ResponseEntity<String> createTeacher(@RequestBody TeacherBean teacherBean) {
 		log.info("*********Called Teacher Registration Method**********");
 		
-		if(teacherService.findByEmail(teacherBean.getEmail())!=null)
+		if(cacheUtils.checkEmailExist(teacherBean.getEmail())) {
 			throw new UserAlreadyExistsException();
+		}
 		
 		teacherBean.setPassword(passwordEncoder.encode(teacherBean.getPassword()));
 		
 		Teacher teacher = new Teacher();
 		BeanUtils.copyProperties(teacherBean, teacher);
 		teacherService.saveTeacher(teacher);
-		log.info("*********New Teacher Details: {}", teacher.toString());
+		log.info("*********New Teacher Details: {}************", teacher.toString());
 		
-		return ResponseEntity.ok().body(teacher);
+		return ResponseEntity.ok().body("Registration successful. The user(teacher) details are"
+				+ " as follows : \n "
+				+ teacher.toString());
 	}
 
 	@RequestMapping(path = "/registerStudent", method = RequestMethod.POST)
-	public ResponseEntity<Student> createStudent(@RequestBody StudentBean studentBean) {	
+	public ResponseEntity<String> createStudent(@RequestBody StudentBean studentBean) {	
 		log.info("*********Called Student Registration Method**********");
 		
-		if(studentService.findByEmail(studentBean.getEmail())!=null)
+		if(cacheUtils.checkEmailExist(studentBean.getEmail())) {
 			throw new UserAlreadyExistsException();
+		}
 		
 		studentBean.setPassword(passwordEncoder.encode(studentBean.getPassword()));
+		
 		Student student = new Student();
 		BeanUtils.copyProperties(studentBean, student);
 		studentService.saveStudent(student);
 		log.info("*********New Student Details: {}", student.toString());
 		
-		return ResponseEntity.ok().body(student);
+		return ResponseEntity.ok().body(
+				"Registration successful. The user(student) details are" +
+						" as follows : \n " + 
+						student.toString());
 	}
 	
 	

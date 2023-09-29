@@ -1,4 +1,6 @@
 package com.springb.students.entity;
 
-public interface ParentUser {
+import java.io.Serializable;
+
+public interface ParentUser extends Serializable {
 }
