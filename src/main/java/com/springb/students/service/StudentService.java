@@ -12,6 +12,10 @@ public interface StudentService {
 	public List<Student> findStudentsByFirstName(String name);
 
 	public List<Student> findStudentsByLastName(String name);
+	
+	public Student findByRollNo(int rollNo);
+	
+	public Student findByEmail(String email);
 
 	public List<Student> showAllStudents();
 

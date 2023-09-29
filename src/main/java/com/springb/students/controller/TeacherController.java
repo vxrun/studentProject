@@ -1,57 +1,27 @@
 package com.springb.students.controller;
 
-import java.util.List;
-
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springb.students.entity.Teacher;
-import com.springb.students.service.TeacherService;
+import com.springb.students.service.StudentService;
 
 @RestController
+@PreAuthorize("hasAuthority('teacher')")
+@RequestMapping(path = "/teacher")
 public class TeacherController {
 	@Autowired
-	TeacherService teacherService;
-
-	//GET METHODS
-	// creates new teacher
-	@GetMapping("/newteacher/{firstName}/{lastName}/{students}")
-	public String createTeacher(
-			@PathVariable(value = "firstName") String firstName,
-			@PathVariable(value = "lastName") String lastName, 
-			@PathVariable(value = "students") int students) {
-		teacherService.createTeacher(firstName, lastName, students);
-		return "Student saved successfully";
-	}
-
-	@GetMapping("/newteacher")
-	public String createTeacherByRM(
-			@RequestParam(value = "firstName") String firstName,
-			@RequestParam(value = "lastName") String lastName, 
-			@RequestParam(value = "students") int students) {
-		teacherService.createTeacher(firstName, lastName, students);
-		return "Student saved successfully";
-	}
-
-	@GetMapping("/newteachers")
-	public String createTeacherByPM(@PathParam(
-			value = "firstName") String firstName,
-			@PathParam(value = "lastName") String lastName, 
-			@PathParam(value = "students") int students) {
-		teacherService.createTeacher(firstName, lastName, students);
-		return "Student saved successfully";
-	}
-
-	@GetMapping("/allteachers")
-	public List<Teacher> showAllTeachers() {
-		return teacherService.showAllTeachers();
-	}
+	StudentService studentService;
 	
-	
-	//POST METHODS
+	@GetMapping("/welcome")
+	public ResponseEntity<String> welcomeStudent(Authentication authentication){
+		String username = authentication.getName();
+		String returnValue;
+		returnValue = "Welcome teacher " + username + " to the welcome page.";
+		return ResponseEntity.ok().body(returnValue);
+	}
 }

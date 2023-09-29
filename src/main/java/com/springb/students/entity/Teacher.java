@@ -2,57 +2,86 @@ package com.springb.students.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.springb.students.enums.Constants;
+
 @Entity
 @Table(name = "Teachers")
-public class Teacher {
-	@Id
+public class Teacher implements ParentUser{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "id")
-	private int id;
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+	@Id
+	private String id;
 	
-	@Column(name="firstName")
+	@Column(name="firstName", nullable = false)
 	private String firstName;
 	
-	@Column(name = "lastName")
+	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "totalStudents")
+	@Column(name="subject", nullable = false)
+	private String subject;
+	
+	@Column(name = "totalStudents", nullable = false)
 	private int totalStudents;
+	
+	private String role;
 
 	//constructor
-	
-	
-	public Teacher(String firstName, String lastName, int totalStudents) {
+	public Teacher() {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.totalStudents = totalStudents;
+		this.role = Constants.ROLES.TEACHER.value();
 	}
-
-	public Teacher(String firstName, String lastName, String email, String password, int totalStudents) {
+	
+	public Teacher(String firstName, String lastName, String email, String password, String subject,
+			int totalStudents) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.subject = subject;
 		this.totalStudents = totalStudents;
+		this.role = Constants.ROLES.TEACHER.value();
 	}
 
-	public Teacher() {
-		super();
+	//getters and setters
+	public String getId() {
+		return id;
 	}
 	
-	//getters and setters
-	public int getId() {
-		return id;
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -71,24 +100,24 @@ public class Teacher {
 		this.password = password;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getRole() {
+		return role;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public int getTotalStudents() {
@@ -98,6 +127,16 @@ public class Teacher {
 	public void setTotalStudents(int totalStudents) {
 		this.totalStudents = totalStudents;
 	}
+
+	@Override
+	public String toString() {
+		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", subject=" + subject + ", totalStudents=" + totalStudents + ", role="
+				+ role + "]";
+	}
+
+	
+	
 
 	
 

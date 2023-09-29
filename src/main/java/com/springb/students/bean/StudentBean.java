@@ -2,24 +2,32 @@ package com.springb.students.bean;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.springb.students.entity.Subject;
 
-public class RequestBean {
+@Entity
+public class StudentBean {
 	
-	@NotNull
+	@NotNull(message = "Please provide valid first name")
 	private String firstName;
 	
-	@NotNull(message = "Pease provide lastName")
+	@NotNull(message = "Please provide valid last name")
 	private String lastName;
 	
+	@Email(message = "Please provide valid email")
+	@NotNull
 	private String email;
 	
+	@Length(min = 8, max = 16, message = "Password length should be 8-16")
+	@NotNull
 	private String password;
-	private List<Subject> subjects;
 	
+	private List<Subject> subjects;
 	@Override
 	public String toString() {
 		return "RequestBean [ firstName=" + firstName + ", lastName=" + lastName + ", email="
@@ -55,6 +63,20 @@ public class RequestBean {
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
+	public StudentBean(@NotNull(message = "Please provide valid first name") String firstName,
+			@NotNull(message = "Please provide valid last name") String lastName,
+			@Email(message = "Please provide valid email") @NotNull String email,
+			@Length(min = 8, max = 16, message = "Password length should be 8-16") @NotNull String password,
+			List<Subject> subjects) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.subjects = subjects;
+	}
+	
+	
 	
 	
 }
